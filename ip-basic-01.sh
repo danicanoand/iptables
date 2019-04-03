@@ -30,6 +30,7 @@ iptables -A OUTPUT -d 192.168.2.41 -j ACCEPT
 #obert a tothom
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 #port 2080 tancat a tothom;reject
+#qualsevol trafic output que ve al port 2080 el denega
 iptables -A INPUT -p tcp --dport 2080 -j REJECT
 #port 2080 tancat a tothom;drop
 iptables -A INPUT -p tcp --dport 2080 -j DROP
@@ -43,5 +44,12 @@ iptables -A INPUT -p tcp --dport 4080 -j ACCEPT
 iptables -A INPUT -p tcp --dport 5080 -s 192.168.2.56 -j REJECT
 iptables -A INPUT -p tcp --dport 5080 -s 192.168.2.0/24 -j ACCEPT
 iptables -A INPUT -p tcp --dport 5080 -j DROP
-
+#port 7080 obert a tohom, tancat hisx2, obert a i05
+iptables -A INPUT -p tcp --dport 7080 -s 192.168.2.35 -j ACCEPT
+iptables -A INPUT -p tcp --dport 7080 -s 192.168.2.0/24 -j DROP
+iptables -A INPUT -p tcp --dport 7080 -j ACCEPT
+# tancar tot l'acces als ports del rang 3000:8000
+#iptables -A INPUT -p tcp --dport 3000:8000 -j REJECT
+#barrera final de tancar (ull quedar tancar)
+#iptables -A INPUT -p tcp --dport 1:1024 -j REJECT
 
