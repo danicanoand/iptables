@@ -30,9 +30,19 @@ iptables -A OUTPUT -d 192.168.2.41 -j ACCEPT
 # Relges related established
 ###############################################
 #permetre navegar web (mal feta)
-iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
-iptables -A INPUT  -p tcp --sport 80 -j ACCEPT
+ #iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+#iptables -A INPUT  -p tcp --sport 80 -j ACCEPT
 #filtrant trafic nomes de resposta
-iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
-iptables -A INPUT  -p tcp --sport 80 -m tcp -m state \
-	--state RELATED,ESTABLISHED -j ACCEPT
+ #iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+ #iptables -A INPUT  -p tcp --sport 80 -m tcp -m state \
+ #	--state RELATED,ESTABLISHED -j ACCEPT
+#oferiri el servei web i permetre nomes resposta a peticions establertes
+ #iptables -A INPUT  -p tcp --dport 80 -j ACCEPT
+ #iptables -A OUTPUT -p tcp --sport 80 -m tcp -m state \
+ #       --state RELATED,ESTABLISHED -j ACCEPT
+#oferiri el servei web a tothom excepte al i05 i permetre nomes resposta a peticions establertes
+ #iptables -A INPUT  -p tcp --dport 80 -s 192.168.2.35 -j REJECT
+ #iptables -A INPUT  -p tcp --dport 80 -j ACCEPT
+ #iptables -A OUTPUT -p tcp --sport 80 -m tcp -m state \
+ #       --state RELATED,ESTABLISHED -j ACCEPT
+
