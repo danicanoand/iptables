@@ -35,3 +35,11 @@ iptables -A OUTPUT -d 192.168.2.41 -j ACCEPT
 iptables -t nat -A POSTROUTING -s 172.21.0.0/24 -o enp5s0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 172.22.0.0/24 -o enp5s0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 172.23.0.0/24 -o enp5s0 -j MASQUERADE
+
+#Exemple port forwading
+ #iptables -A FORWARD -p tcp --dport 13 -j REJECT
+iptables -A INPUT -p tcp --dport 13 -j REJECT
+iptables -t nat -A PREROUTING -p tcp --dport 5001 -j DNAT --to 172.21.0.2:13
+iptables -t nat -A PREROUTING -p tcp --dport 5002 -j DNAT --to 172.21.0.3:13
+iptables -t nat -A PREROUTING -p tcp --dport 5003 -j DNAT --to :13
+
