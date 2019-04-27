@@ -39,7 +39,7 @@ iptables -A OUTPUT -d 192.168.2.41 -j ACCEPT
 #INPUT
 ###################################################
 #obert a tothom
-iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --sport 80 -j ACCEPT
 #port 3080 tancat a tothom i obert a i26
 iptables -A INPUT -p tcp --dport 3080 -s 192.168.2.56 -j ACCEPT
 iptables -A INPUT -p tcp --dport 3080 -j DROP
@@ -70,8 +70,8 @@ iptables -A OUTPUT -p tcp  -d 192.168.2.0/24 -j REJECT
 # Relges related established
 ###################################################
 #oferiri el servei web i permetre nomes resposta a peticions establertes
-iptables -A INPUT  -p tcp --dport 80 -j ACCEPT
-iptables -A OUTPUT -p tcp --sport 80 -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT  -p tcp --sport 80 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 80 -m state --state RELATED,ESTABLISHED -j ACCEPT
 #filtrant trafic nomes de resposta
 iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT  -p tcp --sport 80 -m state --state RELATED,ESTABLISHED -j ACCEPT
@@ -108,12 +108,12 @@ iptables -A FORWARD -p tcp -s 172.21.0.0/16 --dport 13 -j REJECT
 iptables -A FORWARD -p tcp -s 172.21.0.0/16 -d 172.22.0.0/16 --dport 13 -j REJECT
 #Permetre navegar per internet pero res mes a l'exterior
 iptables -A FORWARD -p tcp -s 172.21.0.0/16 -o enp5s0 --dport 80 -j ACCEPT
-iptables -A FORWARD -p tcp -d 172.21.0.0/16 -i enp5s0 --sport 80 -m tcp -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp -d 172.21.0.0/16 -i enp5s0 --sport 80 -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables -A FORWARD  -s 172.21.0.0/16 -o enp5s0 -j REJECT
 iptables -A FORWARD  -d 172.21.0.0/16 -i enp5s0 -j REJECT
 #XarxaA pot accedir al servei 2013 de totes les xarxes de internet excepte de la xarxa hisx2
-iptables -A FORWARD -p tcp -s 172.21.0.0/16 -d 192.168.2.0/24 -p tcp -o enp5s0 --dport 2013 -j REJECT
-iptables -A FORWARD -p tcp -d 172.21.0.0/16 -p tcp -o enp5s0 --dport 2013 -j ACCEPT
+iptables -A FORWARD -p tcp -s 172.21.0.0/16 -d 192.168.2.0/24 -o enp5s0 --dport 2013 -j REJECT
+iptables -A FORWARD -p tcp -s 172.21.0.0/16 -o enp5s0 --dport 2013 -j ACCEPT
 # Evitar que es fasilfiqui la ip Origen: SPOOFING
 # Qualsevol paquet que arribi a br-69badb8e5ec8 que la ip origen no sigui 172.21.0.0/16 DROP
 iptables -A FORWARD ! -s 172.21.0.0/16 -i br-69badb8e5ec8 -j DROP
