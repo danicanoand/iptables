@@ -38,7 +38,9 @@ iptables -A OUTPUT -d 192.168.2.41 -j ACCEPT
 
 #INPUT
 ###################################################
-#obert a tothom
+#obert a tothom que venga al puerto 80
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+#obert a tothom que venga de un puerto 80
 iptables -A INPUT -p tcp --sport 80 -j ACCEPT
 #port 3080 tancat a tothom i obert a i26
 iptables -A INPUT -p tcp --dport 3080 -s 192.168.2.56 -j ACCEPT
